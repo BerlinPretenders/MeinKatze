@@ -1,0 +1,25 @@
+name: Build and Run C++ App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y g++ cmake make
+
+      - name: Compile C++ Program
+        run: |
+          g++ -std=c++17 main.cpp -o app
+
+      - name: Run the Application
+        run: ./app
