@@ -1,0 +1,33 @@
+name: Build and Run Crow App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y g++ cmake libboost-all-dev
+
+      - name: Clone and Build Crow
+        run: |
+          git clone --depth=1 https://github.com/CrowCpp/Crow.git ~/crow
+          mkdir ~/crow/build
+          cd ~/crow/build
+          cmake ..
+          make -j$(nproc)
+
+      - name: Compile C++ App
+        run: |
+          g++ -std=c++17 -I ~/crow/include main.cpp -o server -lpthread
+
+      - name: Run Server
+        run: ./server
