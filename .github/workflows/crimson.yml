@@ -1,0 +1,17 @@
+name: crimson
+
+on: push
+
+jobs:
+  crimson:
+    name: Lint code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run crimson
+        uses: github/crimson@v4
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
